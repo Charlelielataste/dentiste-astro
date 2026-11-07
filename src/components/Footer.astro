@@ -1,0 +1,49 @@
+---
+import { getSettings } from '../lib/content';
+const settings = await getSettings();
+const year = new Date().getFullYear();
+---
+
+<footer class="relative mt-8 overflow-hidden bg-navy text-white">
+  <div aria-hidden="true" class="pointer-events-none absolute -right-32 -top-40 size-[34rem] rounded-full bg-royal/40 blur-3xl"></div>
+  <div class="relative mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.3fr_1fr_1fr]">
+    <div>
+      <div class="flex items-center gap-3">
+        <img src="/favicon.svg" alt="" class="h-9 w-auto" width="32" height="38" />
+        <span class="text-2xl font-semibold tracking-tight">SuperDent</span>
+      </div>
+      <p class="mt-5 max-w-sm text-white/65">
+        Cabinet dentaire à Marseille — tous les actes de dentisterie et d'esthétique modernes, avec un suivi complet et personnalisé.
+      </p>
+      <a href={settings.phoneHref} class="mt-6 inline-block text-2xl font-semibold tracking-tight text-white">{settings.phone}</a>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-mist">Cabinet</h3>
+      <address class="mt-4 not-italic leading-relaxed text-white/75">
+        {settings.address.street}<br />
+        {settings.address.zip} {settings.address.city}
+      </address>
+      <ul class="mt-4 space-y-1 text-white/75">
+        {settings.hours.map((h) => <li>{h.days} · {h.time}</li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold uppercase tracking-[0.14em] text-mist">Liens</h3>
+      <ul class="mt-4 space-y-2 text-white/75">
+        <li><a class="hover:text-white" href="/#equipe">Équipe</a></li>
+        <li><a class="hover:text-white" href="/#specialites">Spécialités</a></li>
+        <li><a class="hover:text-white" href="/#traitements">Traitements</a></li>
+        <li><a class="hover:text-white" href="/#urgences">Urgences</a></li>
+        <li><a class="hover:text-white" href={settings.rdvUrl}>Prendre RDV en ligne</a></li>
+        <li><a class="hover:text-white" href="#">Mentions légales</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative border-t border-white/10">
+    <p class="mx-auto max-w-7xl px-5 py-6 text-sm text-white/45 sm:px-8">
+      © {year} SuperDent — Maquette de démonstration : contenus et visuels provisoires.
+    </p>
+  </div>
+</footer>

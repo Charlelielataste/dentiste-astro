@@ -1,0 +1,69 @@
+---
+import Glass from './Glass.astro';
+import SectionHead from './SectionHead.astro';
+import { getTechnologies, getSettings } from '../lib/content';
+
+const [techs, settings] = await Promise.all([getTechnologies(), getSettings()]);
+
+// Mise en page bento : classes de grille par technologie (même ordre que les données)
+const spans = [
+  'md:col-span-2 md:row-span-2',
+  'md:col-span-2',
+  'md:col-span-1',
+  'md:col-span-1',
+  'md:col-span-2',
+];
+---
+
+<section id="technologies" class="scroll-mt-24 py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <SectionHead
+      eyebrow="Technologies"
+      title="Du matériel de pointe, pour des soins plus précis."
+      intro="Imagerie 3D, empreinte optique, stérilisation rigoureuse : la technologie au service de votre confort."
+    />
+
+    <ul class="mt-14 grid auto-rows-[minmax(13rem,auto)] gap-5 md:grid-cols-4">
+      {techs.map((t, i) => (
+        <li data-reveal data-delay={0.06 * i} class={spans[i]}>
+          <a
+            href={`/technologies/${t.slug}`}
+            class:list={[
+              'group relative flex h-full flex-col justify-between overflow-hidden rounded-[2rem] p-7 transition duration-500 hover:-translate-y-1.5',
+              i === 0 ? 'bg-gradient-to-br from-navy via-ocean to-sky text-white' : 'glass',
+            ]}
+          >
+            <div class="flex items-start justify-between">
+              <span class:list={['text-sm font-semibold tracking-widest', i === 0 ? 'text-mist' : 'text-royal']}>0{i + 1}</span>
+              <svg class:list={['size-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1', i === 0 ? 'text-white' : 'text-royal']} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 12 12 4m0 0H5m7 0v7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+
+            {i === 0 && (
+              <Glass kind={t.kind} class="pointer-events-none absolute -bottom-8 -right-4 w-56 opacity-90 transition duration-700 group-hover:rotate-6 group-hover:scale-105" />
+            )}
+
+            <div class="relative mt-10 max-w-[17rem]">
+              <h3 class:list={['font-semibold tracking-tight', i === 0 ? 'text-4xl leading-[1.05]' : 'text-2xl']}>{t.title}</h3>
+              <p class:list={['mt-2 text-[0.95rem]', i === 0 ? 'text-white/75' : 'text-navy/65']}>{t.short}</p>
+            </div>
+          </a>
+        </li>
+      ))}
+
+      <li data-reveal data-delay="0.3" class="md:col-span-2">
+        <a
+          href={settings.rdvUrl}
+          class="group flex h-full flex-col justify-between rounded-[2rem] bg-copper p-7 text-white transition duration-500 hover:-translate-y-1.5 hover:brightness-110"
+        >
+          <span class="text-sm font-semibold tracking-widest text-white/70">06</span>
+          <div class="mt-10">
+            <h3 class="text-2xl font-semibold tracking-tight">Rendez-vous en ligne</h3>
+            <p class="mt-2 text-[0.95rem] text-white/80">Choisissez votre praticien et votre créneau, à toute heure.</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

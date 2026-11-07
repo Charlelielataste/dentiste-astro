@@ -1,0 +1,36 @@
+---
+import SectionHead from './SectionHead.astro';
+import { getConseils } from '../lib/content';
+
+const conseils = await getConseils();
+---
+
+<section id="conseils" class="scroll-mt-24 py-24 sm:py-32">
+  <div class="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+    <div class="lg:sticky lg:top-32 lg:self-start">
+      <SectionHead
+        eyebrow="Conseils"
+        title="Bien préparer, bien récupérer."
+        intro="Quelques fiches pratiques avant et après vos soins."
+      />
+    </div>
+
+    <ul class="divide-y divide-navy/10 rounded-[2rem] glass">
+      {conseils.map((c, i) => (
+        <li data-reveal data-delay={0.05 * i}>
+          <a href={c.href} class="group flex items-start justify-between gap-6 p-7 transition hover:bg-white/60 first:rounded-t-[2rem] last:rounded-b-[2rem]">
+            <div>
+              <h3 class="text-xl font-semibold tracking-tight">{c.title}</h3>
+              <p class="mt-2 max-w-xl text-navy/65">{c.excerpt}</p>
+            </div>
+            <span class="mt-1 grid size-11 shrink-0 place-items-center rounded-full bg-royal/10 text-royal transition group-hover:bg-royal group-hover:text-white">
+              <svg class="size-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 12 12 4m0 0H5m7 0v7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

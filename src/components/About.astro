@@ -1,0 +1,45 @@
+---
+import Glass from './Glass.astro';
+import SectionHead from './SectionHead.astro';
+
+const points = [
+  ['Tous les actes', "de dentisterie et d'esthétique modernes"],
+  ['Suivi complet', 'et personnalisé de votre dentition'],
+  ['Traçabilité', 'fournie à tous les patients'],
+];
+---
+
+<section id="cabinet" class="scroll-mt-24 py-24 sm:py-32">
+  <div class="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-2 lg:gap-20">
+    <div data-reveal class="relative">
+      <div class="relative aspect-[5/4] overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-mist/60 via-sky/40 to-royal/70">
+        <div data-parallax="0.08" class="absolute inset-0 grid place-items-center">
+          <Glass kind="incisor" class="h-64 w-auto animate-float-slow drop-shadow-[0_30px_40px_rgba(10,35,88,0.35)] sm:h-80" />
+        </div>
+        <p class="absolute left-4 top-4 rounded-full bg-white/70 px-3 py-1.5 text-xs font-medium text-navy backdrop-blur">
+          Emplacement photo du cabinet
+        </p>
+      </div>
+      <div class="glass absolute -bottom-6 right-4 max-w-[15rem] rounded-3xl p-5 sm:-right-6">
+        <p class="text-sm font-medium text-royal">Implants</p>
+        <p class="mt-1 text-lg font-semibold leading-tight tracking-tight">fabriqués en France, traçabilité fournie</p>
+      </div>
+    </div>
+
+    <div>
+      <SectionHead
+        eyebrow="Le cabinet"
+        title="Un cabinet moderne, une équipe à l'écoute."
+        intro="Le cabinet SuperDent vous propose tous les actes de dentisterie et d'esthétique modernes, avec un suivi complet et personnalisé. Toutes nos prothèses sont élaborées dans des laboratoires locaux."
+      />
+      <ul class="mt-10 grid gap-4 sm:grid-cols-3">
+        {points.map(([a, b], i) => (
+          <li data-reveal data-delay={0.1 * i} class="rounded-3xl bg-royal/5 p-5 ring-1 ring-royal/10">
+            <p class="font-semibold tracking-tight">{a}</p>
+            <p class="mt-1 text-sm text-navy/65">{b}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

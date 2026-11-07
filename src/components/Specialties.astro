@@ -1,0 +1,47 @@
+---
+import Glass from './Glass.astro';
+import SectionHead from './SectionHead.astro';
+import { getSpecialites } from '../lib/content';
+
+const specialites = await getSpecialites();
+---
+
+<section id="specialites" class="scroll-mt-24 px-3 py-6 sm:px-6">
+  <div class="relative mx-auto max-w-[88rem] overflow-hidden rounded-[2.5rem] bg-[linear-gradient(160deg,#0a2358_0%,#1d4a93_55%,#2f78bd_100%)] px-5 py-20 sm:rounded-[3.5rem] sm:px-10 sm:py-28">
+    <div aria-hidden="true" class="pointer-events-none absolute -left-24 top-10 size-[28rem] rounded-full bg-sky/25 blur-3xl"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-32 right-0 size-[32rem] rounded-full bg-mist/20 blur-3xl"></div>
+
+    <div class="relative mx-auto max-w-7xl">
+      <SectionHead
+        dark
+        eyebrow="Spécialités"
+        title="Six spécialités, un seul cabinet."
+        intro="De l'omnipratique à la pédodontie, chaque besoin trouve son praticien."
+      />
+
+      <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {specialites.map((s, i) => (
+          <li data-reveal data-delay={0.07 * (i % 3)}>
+            <a
+              href={`/specialites/${s.slug}`}
+              class="glass-dark group relative flex h-full flex-col overflow-hidden rounded-[2rem] p-6 transition duration-500 hover:-translate-y-2 hover:bg-white/15"
+            >
+              <div class="relative mx-auto grid h-52 w-full place-items-center">
+                <div class="absolute size-40 rounded-full bg-sky/30 blur-2xl transition duration-500 group-hover:scale-125 group-hover:bg-sky/50"></div>
+                <Glass kind={s.kind} class="relative h-44 w-auto transition duration-700 group-hover:-translate-y-2 group-hover:rotate-3 group-hover:scale-105" />
+              </div>
+              <h3 class="mt-4 text-2xl font-semibold tracking-tight text-white">{s.title}</h3>
+              <p class="mt-2 flex-1 text-white/70">{s.short}</p>
+              <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-mist">
+                Découvrir
+                <svg class="size-4 transition-transform group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

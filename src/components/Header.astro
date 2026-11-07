@@ -1,0 +1,78 @@
+---
+import { getSettings } from '../lib/content';
+const settings = await getSettings();
+
+const links = [
+  ['Cabinet', '/#cabinet'],
+  ['Équipe', '/#equipe'],
+  ['Spécialités', '/#specialites'],
+  ['Technologies', '/#technologies'],
+  ['Traitements', '/#traitements'],
+  ['Conseils', '/#conseils'],
+  ['Urgences', '/#urgences'],
+  ['Contact', '/#contact'],
+];
+---
+
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
+  <div class="glass mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full py-2.5 pl-5 pr-2.5">
+    <a href="/" class="flex items-center gap-2.5 font-semibold tracking-tight" aria-label="SuperDent — accueil">
+      <img src="/favicon.svg" alt="" class="h-7 w-auto" width="24" height="29" />
+      <span class="text-lg">SuperDent</span>
+    </a>
+
+    <nav class="hidden items-center gap-0.5 xl:flex" aria-label="Navigation principale">
+      {links.map(([label, href]) => (
+        <a href={href} class="rounded-full px-3 py-2 text-sm font-medium text-navy/75 transition hover:bg-white/70 hover:text-navy">
+          {label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={settings.phoneHref} class="hidden px-2 text-sm font-semibold text-navy/80 md:inline">{settings.phone}</a>
+      <a
+        href={settings.rdvUrl}
+        class="rounded-full bg-gradient-to-b from-royal to-navy px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(39,89,165,0.8)] transition hover:-translate-y-0.5"
+      >
+        <span class="sm:hidden">RDV</span><span class="hidden sm:inline">Prendre RDV</span>
+      </a>
+      <button
+        id="menu-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Ouvrir le menu"
+        class="grid size-11 place-items-center rounded-full bg-white/70 text-navy xl:hidden"
+      >
+        <svg viewBox="0 0 20 20" class="size-5" fill="none" aria-hidden="true">
+          <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" hidden class="glass mx-auto mt-2 max-w-7xl rounded-[2rem] p-3 xl:hidden">
+    <ul class="grid gap-1 sm:grid-cols-2">
+      {links.map(([label, href]) => (
+        <li>
+          <a href={href} class="block rounded-2xl px-4 py-3 text-base font-medium text-navy hover:bg-white/70">{label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    const toggle = (open: boolean) => {
+      menu.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+    };
+    btn.addEventListener('click', () => toggle(menu.hidden));
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => toggle(false)));
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && toggle(false));
+  }
+</script>

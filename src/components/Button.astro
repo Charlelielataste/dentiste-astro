@@ -1,0 +1,33 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost' | 'light' | 'copper';
+  class?: string;
+  external?: boolean;
+  arrow?: boolean;
+}
+
+const { href, variant = 'primary', class: className = '', external = false, arrow = true } = Astro.props;
+
+const base =
+  'group relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[0.95rem] font-semibold transition duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky';
+
+const variants = {
+  primary:
+    'bg-gradient-to-b from-royal to-navy text-white shadow-[0_14px_30px_-10px_rgba(39,89,165,0.7)] hover:shadow-[0_18px_40px_-10px_rgba(39,89,165,0.9)]',
+  ghost: 'glass text-navy hover:bg-white/80',
+  light: 'bg-white text-navy shadow-[0_14px_30px_-12px_rgba(3,12,40,0.5)] hover:bg-ice',
+  copper:
+    'bg-copper text-white shadow-[0_14px_30px_-10px_rgba(168,111,87,0.7)] hover:brightness-110',
+};
+const extra = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+<a href={href} class:list={[base, variants[variant], className]} {...extra}>
+  <slot />
+  {arrow && (
+    <svg class="size-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  )}
+</a>

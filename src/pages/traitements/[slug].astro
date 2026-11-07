@@ -1,0 +1,13 @@
+---
+import DetailPage from '../../components/DetailPage.astro';
+import { getEntries } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const entries = await getEntries('traitements');
+  return entries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<DetailPage entry={entry} type="traitements" label="Traitement" />

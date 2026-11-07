@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter-tight";
+
+/* Palette inspirée de la direction « Celestia » : bleus profonds + blanc glacé + une touche cuivrée */
+@theme {
+  --font-sans: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ice: #fbfdfe;
+  --color-navy: #0a2358;
+  --color-royal: #2759a5;
+  --color-ocean: #225999;
+  --color-sky: #54a2d9;
+  --color-mist: #a3c8da;
+  --color-copper: #a86f57;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-1.5deg);
+    }
+    50% {
+      transform: translateY(-18px) rotate(1.5deg);
+    }
+  }
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgb(168 111 87 / 0.5);
+    }
+    100% {
+      box-shadow: 0 0 0 12px rgb(168 111 87 / 0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: auto;
+  }
+  body {
+    @apply bg-ice text-navy font-sans antialiased;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: #54a2d9;
+    color: #fff;
+  }
+}
+
+/* Surfaces en verre dépoli */
+@utility glass {
+  background: rgb(255 255 255 / 0.55);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.75);
+  box-shadow:
+    0 0 0 1px rgb(10 35 88 / 0.06),
+    0 24px 70px -28px rgb(10 35 88 / 0.35),
+    inset 0 1px 0 rgb(255 255 255 / 0.8);
+}
+
+@utility glass-dark {
+  background: rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgb(255 255 255 / 0.22);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 30px 60px -30px rgb(3 12 40 / 0.6);
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(120deg, #0a2358 8%, #2759a5 52%, #54a2d9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-light {
+  background-image: linear-gradient(120deg, #ffffff 10%, #a3c8da 60%, #54a2d9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* États initiaux des animations : actifs uniquement si JS est chargé */
+.js [data-reveal] {
+  opacity: 0;
+}
+.js .word-in {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+  }
+  .js .word-in {
+    visibility: visible;
+  }
+}

@@ -1,0 +1,92 @@
+---
+import Glass from './Glass.astro';
+import SectionHead from './SectionHead.astro';
+import { getPraticiens, getEquipe, getSettings } from '../lib/content';
+
+const [praticiens, equipe, settings] = await Promise.all([getPraticiens(), getEquipe(), getSettings()]);
+
+const initials = (name: string) =>
+  name
+    .replace(/^Dr\s+/, '')
+    .split(' ')
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('');
+
+const tints = [
+  'from-sky/70 to-royal',
+  'from-mist to-ocean',
+  'from-royal/80 to-navy',
+  'from-sky/60 to-ocean',
+];
+---
+
+<section id="equipe" class="scroll-mt-24 py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <SectionHead
+      eyebrow="Équipe"
+      title="Des praticiens complémentaires, un même soin du détail."
+      intro="Chaque praticien a sa page de prise de rendez-vous en ligne."
+    />
+
+    <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {praticiens.map((p, i) => (
+        <li data-reveal data-delay={0.06 * (i % 4)}>
+          <a
+            href={p.rdv}
+            class="glass group flex h-full flex-col rounded-[2rem] p-3 transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_40px_80px_-30px_rgba(39,89,165,0.55)]"
+          >
+            <div class:list={['relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-gradient-to-br', tints[i % tints.length]]}>
+              <Glass kind="tooth" shadow={false} class="absolute -right-6 -top-4 w-2/3 opacity-30 transition duration-700 group-hover:scale-110 group-hover:rotate-6" />
+              <span class="absolute bottom-3 left-4 text-6xl font-semibold tracking-[-0.04em] text-white/90">{initials(p.name)}</span>
+              <span class="absolute right-3 top-3 rounded-full bg-white/80 px-2.5 py-1 text-[0.7rem] font-medium text-navy">Photo à venir</span>
+            </div>
+            <div class="flex flex-1 flex-col px-3 pb-3 pt-4">
+              <h3 class="text-lg font-semibold tracking-tight">{p.name}</h3>
+              <p class="mt-0.5 text-sm text-navy/65">{p.role}</p>
+              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-royal">
+                Prendre RDV
+                <svg class="size-4 transition-transform group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+            </div>
+          </a>
+        </li>
+      ))}
+
+      <li data-reveal data-delay="0.18">
+        <a
+          href={settings.rdvUrl}
+          class="group flex h-full min-h-72 flex-col justify-between rounded-[2rem] bg-gradient-to-br from-royal to-navy p-7 text-white transition duration-500 hover:-translate-y-1.5"
+        >
+          <p class="text-3xl font-semibold leading-tight tracking-tight">Pas de préférence&nbsp;?</p>
+          <div>
+            <p class="text-white/70">Prenez rendez-vous avec le cabinet.</p>
+            <span class="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-navy">
+              Prendre RDV en ligne
+              <svg class="size-4 transition-transform group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </li>
+    </ul>
+
+    <div class="mt-14">
+      <h3 data-reveal class="text-sm font-semibold uppercase tracking-[0.14em] text-royal">Et toute l'équipe qui vous accueille</h3>
+      <ul class="mt-5 flex flex-wrap gap-3">
+        {equipe.map((m, i) => (
+          <li data-reveal data-delay={0.04 * i} class="glass flex items-center gap-3 rounded-full py-2 pl-2 pr-5">
+            <span class="grid size-10 place-items-center rounded-full bg-gradient-to-br from-sky to-royal text-sm font-semibold text-white">{m.name[0]}</span>
+            <span class="leading-tight">
+              <span class="block text-sm font-semibold">{m.name}</span>
+              <span class="block text-xs text-navy/60">{m.role}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

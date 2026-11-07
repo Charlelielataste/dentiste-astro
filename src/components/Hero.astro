@@ -1,0 +1,97 @@
+---
+import Glass from './Glass.astro';
+import Button from './Button.astro';
+import { getSettings } from '../lib/content';
+
+const settings = await getSettings();
+const words = ['Prenez', 'soin', 'de', 'votre', 'sourire.'];
+const trust = [
+  'Implants fabriqués en France',
+  'Prothèses de laboratoires locaux',
+  'Accès handicapé · parking gratuit',
+];
+---
+
+<section data-hero class="relative isolate overflow-hidden pb-24 pt-32 sm:pt-40 lg:pb-36">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute -right-[10%] -top-32 size-[42rem] rounded-full bg-sky/25 blur-3xl"></div>
+    <div class="absolute -left-40 top-40 size-[32rem] rounded-full bg-mist/30 blur-3xl"></div>
+  </div>
+
+  <div class="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr]">
+    <div>
+      {settings.banner && (
+        <p data-reveal class="mb-5 rounded-2xl bg-copper/10 px-4 py-3 text-sm font-medium text-copper ring-1 ring-copper/25">
+          {settings.banner}
+        </p>
+      )}
+      <p data-reveal class="glass inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-medium text-royal">
+        <span class="size-2 animate-pulse-ring rounded-full bg-copper"></span>
+        Cabinet dentaire · Marseille
+      </p>
+
+      <h1 class="mt-7 text-[clamp(2.9rem,7.4vw,6.1rem)] font-semibold leading-[0.98] tracking-[-0.04em]">
+        {words.map((w) => (
+          <span class="mr-[0.2em] inline-block overflow-hidden pb-[0.12em] align-bottom">
+            <span class:list={['word-in inline-block', w === 'sourire.' && 'text-gradient']}>{w}</span>
+          </span>
+        ))}
+      </h1>
+
+      <p data-reveal data-delay="0.35" class="mt-7 max-w-xl text-lg leading-relaxed text-navy/70 sm:text-xl">
+        Sept praticiens, six spécialités et des technologies de pointe pour un suivi complet et personnalisé de votre dentition.
+      </p>
+
+      <div data-reveal data-delay="0.45" class="mt-9 flex flex-wrap items-center gap-3">
+        <Button href={settings.rdvUrl}>Prendre RDV en ligne</Button>
+        <Button href={settings.phoneHref} variant="ghost" arrow={false}>
+          <svg class="size-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 3h3l1.5 4-2 1.2a10 10 0 0 0 4.3 4.3L13 10.5l4 1.5v3a2 2 0 0 1-2 2A12 12 0 0 1 3 5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
+          </svg>
+          {settings.phone}
+        </Button>
+      </div>
+
+      <ul data-reveal data-delay="0.55" class="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-navy/65">
+        {trust.map((t) => (
+          <li class="flex items-center gap-2">
+            <svg class="size-4 text-royal" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-opacity="0.35"></circle>
+              <path d="m5 8.2 2 2 4-4.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            {t}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Scène 3D verre -->
+    <div data-reveal data-delay="0.2" class="relative mx-auto aspect-square w-full max-w-[34rem]">
+      <div class="absolute inset-[6%] rounded-full bg-gradient-to-br from-sky/45 via-royal/20 to-transparent blur-2xl"></div>
+      <div class="glass absolute inset-[12%] rotate-6 rounded-[3rem] opacity-70"></div>
+
+      <div data-depth="26" class="absolute inset-[11%]">
+        <Glass kind="tooth" class="size-full animate-float drop-shadow-[0_40px_50px_rgba(10,35,88,0.35)]" />
+      </div>
+      <div data-depth="-44" class="absolute -left-1 top-[6%] w-[26%]">
+        <Glass kind="sparkle" class="animate-float-slow" />
+      </div>
+      <div data-depth="50" class="absolute -right-1 bottom-[4%] w-[25%]">
+        <Glass kind="implant" class="animate-float" />
+      </div>
+
+      <div data-depth="-18" class="absolute bottom-[12%] left-0">
+        <div class="glass rounded-2xl px-4 py-3">
+          <p class="text-xs font-medium text-royal">Du lundi au samedi</p>
+          <p class="text-lg font-semibold tracking-tight">dès 9h30</p>
+        </div>
+      </div>
+      <div data-depth="30" class="absolute right-0 top-[10%]">
+        <div class="glass rounded-2xl px-4 py-3 text-center">
+          <p class="text-3xl font-semibold leading-none tracking-tight text-gradient">7</p>
+          <p class="mt-1 text-xs text-navy/65">praticiens</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+---
+import Button from './Button.astro';
+import { getSettings } from '../lib/content';
+
+const settings = await getSettings();
+---
+
+<section id="urgences" class="scroll-mt-24 py-12 sm:py-20">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div data-reveal class="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#fbf1ec] to-[#f4dfd5] p-8 ring-1 ring-copper/20 sm:p-12">
+      <div class="grid gap-10 lg:grid-cols-[1fr_1fr]">
+        <div>
+          <p class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-copper">
+            <span class="size-2 animate-pulse-ring rounded-full bg-copper"></span>Urgences dentaires
+          </p>
+          <h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.03em] sm:text-5xl">Une urgence&nbsp;? <span class="whitespace-nowrap">Appelez-nous.</span></h2>
+          <p class="mt-4 max-w-md text-navy/70">
+            En cas de traumatisme dentaire ou d'urgence orthodontique, contactez le cabinet au plus tôt. Si nous sommes absents, rapprochez-vous du service d'odontologie ou de stomatologie de l'hôpital le plus proche.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <Button href={settings.phoneHref} variant="copper" arrow={false}>Appeler le {settings.phone}</Button>
+            <Button href={settings.gardeUrl} variant="ghost" external>Service de garde (dimanche et jours fériés)</Button>
+          </div>
+        </div>
+
+        <div class="grid gap-4 self-center">
+          <div class="rounded-3xl bg-white/70 p-6">
+            <h3 class="font-semibold tracking-tight">Dent expulsée</h3>
+            <p class="mt-1 text-sm text-navy/70">Récupérer la dent sans la nettoyer et la conserver dans du sérum physiologique ou du lait (sinon, dans la salive).</p>
+          </div>
+          <div class="rounded-3xl bg-white/70 p-6">
+            <h3 class="font-semibold tracking-tight">Dent déplacée</h3>
+            <p class="mt-1 text-sm text-navy/70">Replacer la dent correctement avec la pression des doigts, puis contacter le cabinet sans attendre.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
